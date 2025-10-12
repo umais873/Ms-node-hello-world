@@ -23,6 +23,24 @@ jobs:
         cache: 'npm'
     - name: Run test script
       run: npm test
+       snyk-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Required to checkout the code
+      security-events: write # Required to upload SARIF results
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk-results.sarif
+      - name: Upload Snyk scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'snyk-results.sarif'
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
