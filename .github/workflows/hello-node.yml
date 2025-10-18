@@ -50,11 +50,7 @@ jobs:
   snyk-scan:
     name: Snyk Security Scan
     needs: build # Ensures this runs after the build/test job completes successfully
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
+    runs-on: ubuntu-latest
         
     permissions:
       contents: read # Required to checkout the code
