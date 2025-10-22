@@ -42,9 +42,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build Node.js
-          path: |
-            ./
-            !node_modules/
+          path: ./, !node_modules/
+         # ---------------------------------------------------------------------------------------
   snyk-scan:
     name: Snyk Security Scan
     needs: build
