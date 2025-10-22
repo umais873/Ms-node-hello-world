@@ -18,10 +18,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '${{ matrix.node-version }}'
+          
       - name: Cache node modules
         uses: actions/cache@v4
         with:
@@ -29,14 +31,17 @@ jobs:
           key: '${{ runner.os }}-node-${{ hashFiles(''**/package-lock.json'') }}'
           restore-keys: |
             ${{ runner.os }}-node-
+            
       - name: Install dependencies
         run: npm ci
+        
       - name: Run test script
         run: npm test
+        
       - name: Upload test results or build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: 'nodejs-build-${{ matrix.os }}-${{ matrix.node-version }}'
+          name: build Node.js
           path: |
             ./
             !node_modules/
